@@ -3,7 +3,6 @@ import streamlit as st
 
 from analyzer.codebase_analyzer import analyze_codebase
 from analyzer.dependency_analyzer import analyze_dependencies
-from llm.semantic_analyzer import generate_documentation
 from evaluation.documentation_evaluator import calculate_basic_metrics
 from evaluation.documentation_validator import validate_documentation
 
@@ -64,7 +63,7 @@ def cached_dependency_analysis(folder):
 
 @st.cache_data(show_spinner="Generating AI documentation...")
 def cached_documentation_generation(codebase):
-
+    from llm.semantic_analyzer import generate_documentation
     documented_items = []
 
     # -----------------------------------------------------
