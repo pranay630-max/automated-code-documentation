@@ -805,7 +805,7 @@ SOURCE CODE
 
         outputs = model.generate(
             **inputs,
-            max_new_tokens=220,
+            max_new_tokens=120,
             do_sample=False,
             repetition_penalty=1.05,
             use_cache=True,
