@@ -11,24 +11,34 @@ from transformers import (
 # MODEL CONFIGURATION
 # =========================================================
 
-MODEL_NAME = "Qwen/Qwen2.5-Coder-1.5B-Instruct"
-
-
 # =========================================================
-# LOAD MODEL
+# MODEL CONFIGURATION
 # =========================================================
+
+# Use the smaller model for deployment compatibility.
+MODEL_NAME = "Qwen/Qwen2.5-Coder-0.5B-Instruct"
 
 print("Loading model...")
+print(f"Model: {MODEL_NAME}")
 
 tokenizer = AutoTokenizer.from_pretrained(
     MODEL_NAME
 )
 
-model = AutoModelForCausalLM.from_pretrained(
-    MODEL_NAME,
-    dtype=torch.float16,
-    device_map="auto"
-)
+# Use GPU when available, otherwise CPU.
+if torch.cuda.is_available():
+    print("GPU detected. Loading model on GPU...")
+    model = AutoModelForCausalLM.from_pretrained(
+        MODEL_NAME,
+        dtype=torch.float16,
+        device_map="auto"
+    )
+else:
+    print("No GPU detected. Loading model on CPU...")
+    model = AutoModelForCausalLM.from_pretrained(
+        MODEL_NAME,
+        dtype=torch.float32
+    )
 
 model.eval()
 
